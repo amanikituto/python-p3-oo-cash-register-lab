@@ -28,3 +28,26 @@ class TestCashRegister(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+class CashRegister:
+    def __init__(self, discount=0):
+        self.items = []
+        self.discount = discount
+        self.last_transaction = 0
+
+    def add_item(self, title, price, quantity=1):
+        self.items.extend([price]*quantity)
+        self.last_transaction = price * quantity
+
+    def total(self):
+        return float(sum(self.items))
+
+    def apply_discount(self):
+        if self.discount:
+            new_total = self.total() * (1 - (self.discount / 100))
+            return f"After the discount, the total comes to ${new_total:.2f}"
+        else:
+            return "There is no discount to apply."
+
+    def void_last_transaction(self):
+        for _ in range(int(self.last_transaction)):
+            self.items.pop()
